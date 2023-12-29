@@ -7,7 +7,8 @@ class DailyPuzzle(object):
         self.year: str = year
         self.day: str = day
 
-        self.data_folder: str = os.path.join(os.path.dirname(__file__), "data")
+        self.parent_folder: str = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+        self.data_folder: str = os.path.join(self.parent_folder, "data")
         self.data_file: str = os.path.join(self.data_folder, self.year, f"{self.day}.txt")
 
         self.data: List[str] = self.load_data()
@@ -17,4 +18,3 @@ class DailyPuzzle(object):
             out = [ld.rstrip('\n') for ld in f_open.readlines()]
             f_open.close()
         return out
-    
