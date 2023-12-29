@@ -4,134 +4,13 @@ from copy import deepcopy
 from itertools import combinations
 
 
-
-def aoc2():
-    input_file_path = "/Users/lorenzocarvelli/Desktop/aoc_2023_data/2/2.txt"
-    with open(input_file_path, "r") as f_open:
-        data = f_open.readlines()
-        f_open.close()
-
-    allowed_cubes = {
-        "red": 12,
-        "green": 13,
-        "blue": 14
-    }
-
-    allowed_ids = 0
-    powers = 0
-    for ll in data:
-        allowed = True
-        game_id = int(re.match(r"Game (\d+):", ll).group(1))
-
-        games_str = re.match(r"Game \d+:(.+?)$", ll).group(1)
-        games_list = re.findall(r"(.+?);", games_str)
-        games_list.append(re.match(".+" + games_list[-1] + ";(.+)$", games_str).group(1))
-
-        min_power = {
-            "red": 0,
-            "blue": 0,
-            "green": 0
-        }
-
-        for game in games_list:
-            red_cubes_match = re.match(r".*?(\d+) red", game)
-            blue_cubes_match = re.match(r".*?(\d+) blue", game)
-            green_cubes_match = re.match(r".*?(\d+) green", game)
-
-            red_cubes = int(red_cubes_match.group(1)) if red_cubes_match else 0
-            blue_cubes = int(blue_cubes_match.group(1)) if blue_cubes_match else 0
-            green_cubes = int(green_cubes_match.group(1)) if green_cubes_match else 0
-
-            if red_cubes > allowed_cubes["red"] or blue_cubes > allowed_cubes["blue"] or green_cubes > allowed_cubes[
-                "green"]:
-                allowed = False
-
-            if red_cubes > min_power["red"]:
-                min_power["red"] = red_cubes
-
-            if blue_cubes > min_power["blue"]:
-                min_power["blue"] = blue_cubes
-
-            if green_cubes > min_power["green"]:
-                min_power["green"] = green_cubes
-
-        if allowed:
-            allowed_ids += game_id
-
-        powers += min_power["red"] * min_power["blue"] * min_power["green"]
-
-    print(allowed_ids)
-    print(powers)
-
-
 def aoc3():
     input_file_path = "/Users/lorenzocarvelli/Desktop/aoc_2023_data/3/3.txt"
     with open(input_file_path, "r") as fopen:
         data = fopen.readlines()
         fopen.close()
 
-    polished_data = [d.strip() for d in data]
-    engine_parts_n = []
 
-    matches_tuples = []
-    for idx, data_line in enumerate(polished_data):
-        for m in re.finditer(r"\d+", data_line):
-            n = int(m.group(0))
-            start_col_idx = m.start(0)
-            end_col_idx = m.end(0)
-
-            matches_tuples.append((n, [cdx for cdx in range(start_col_idx, end_col_idx)], idx))
-
-            previous_col_idx = start_col_idx - 1
-            next_col_idx = end_col_idx + 1
-
-            contour_pts = []
-            previous_row_idx = idx - 1
-            next_row_idx = idx + 1
-
-            # Adding contour points
-            if previous_col_idx >= 0:
-                contour_pts.append(data_line[previous_col_idx])
-            else:
-                previous_col_idx += 1
-
-            if end_col_idx < len(data_line):
-                contour_pts.append(data_line[end_col_idx])
-            else:
-                next_col_idx -= 1
-
-            if previous_row_idx >= 0:
-                for ii in range(previous_col_idx, next_col_idx):
-                    contour_pts.append(polished_data[previous_row_idx][ii])
-
-            if next_row_idx < len(polished_data):
-                for jj in range(previous_col_idx, next_col_idx):
-                    contour_pts.append(polished_data[next_row_idx][jj])
-
-            if any([cp != "." for cp in contour_pts]):
-                engine_parts_n.append(n)
-
-    print(sum(engine_parts_n))
-
-    ratios = []
-    for jdx, ll in enumerate(polished_data):
-        for star_match in re.finditer(r"\*", ll):
-            start_col_idx_star = star_match.start(0)
-            end_col_idx_star = star_match.end(0)
-
-            above = [mt for mt in matches_tuples if mt[2] == jdx - 1 and (
-                        start_col_idx_star - 1 in mt[1] or end_col_idx_star in mt[1] or start_col_idx_star in mt[1])]
-            below = [mt for mt in matches_tuples if mt[2] == jdx + 1 and (
-                        start_col_idx_star - 1 in mt[1] or end_col_idx_star in mt[1] or start_col_idx_star in mt[1])]
-            same_line = [mt for mt in matches_tuples if
-                         mt[2] == jdx and (start_col_idx_star - 1 in mt[1] or end_col_idx_star in mt[1])]
-
-            adjacent_numbers = above + below + same_line
-
-            if len(adjacent_numbers) == 2:
-                ratios.append(adjacent_numbers[0][0] * adjacent_numbers[1][0])
-
-    print(sum(ratios))
 
 
 def aoc4():
