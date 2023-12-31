@@ -108,33 +108,15 @@ class Day5(DailyPuzzle):
             if parsing_humidity_to_location:
                 humidity_to_location.append(range_tuple)
 
-        def convert_through_map(input_value: int, map_tuples_list: list) -> int:
-            for tpl in map_tuples_list:
-                source_start, r_length, destination_start = tpl
-                if source_start <= input_value < source_start + r_length:
-                    increment = input_value - source_start
-                    return destination_start + increment
-
-            return input_value
-
-        def reverse_through_map(input_value: int, map_tuples_list: list) -> int:
-            for tpl in map_tuples_list:
-                source_start, r_length, destination_start = tpl
-                if destination_start <= input_value < destination_start + r_length:
-                    increment = input_value - destination_start
-                    return source_start + increment
-
-            return input_value
-
         locations = []
         for ss in seeds:
-            soil = convert_through_map(ss, seed_to_soil)
-            fertilizer = convert_through_map(soil, soil_to_fertilizer)
-            water = convert_through_map(fertilizer, fertilizer_to_water)
-            light = convert_through_map(water, water_to_light)
-            temperature = convert_through_map(light, light_to_temperature)
-            humidity = convert_through_map(temperature, temperature_to_humidity)
-            location = convert_through_map(humidity, humidity_to_location)
+            soil = self.convert_through_map(ss, seed_to_soil)
+            fertilizer = self.convert_through_map(soil, soil_to_fertilizer)
+            water = self.convert_through_map(fertilizer, fertilizer_to_water)
+            light = self.convert_through_map(water, water_to_light)
+            temperature = self.convert_through_map(light, light_to_temperature)
+            humidity = self.convert_through_map(temperature, temperature_to_humidity)
+            location = self.convert_through_map(humidity, humidity_to_location)
 
             locations.append(location)
 
@@ -144,13 +126,13 @@ class Day5(DailyPuzzle):
         max_seed = max(seeds)  # Should be enough...
         for i in range(max_seed):
             location = i
-            humidity = reverse_through_map(location, humidity_to_location)
-            temperature = reverse_through_map(humidity, temperature_to_humidity)
-            light = reverse_through_map(temperature, light_to_temperature)
-            water = reverse_through_map(light, water_to_light)
-            fertilizer = reverse_through_map(water, fertilizer_to_water)
-            soil = reverse_through_map(fertilizer, soil_to_fertilizer)
-            seed = reverse_through_map(soil, seed_to_soil)
+            humidity = self.reverse_through_map(location, humidity_to_location)
+            temperature = self.reverse_through_map(humidity, temperature_to_humidity)
+            light = self.reverse_through_map(temperature, light_to_temperature)
+            water = self.reverse_through_map(light, water_to_light)
+            fertilizer = self.reverse_through_map(water, fertilizer_to_water)
+            soil = self.reverse_through_map(fertilizer, soil_to_fertilizer)
+            seed = self.reverse_through_map(soil, seed_to_soil)
 
             for start_seed, range_seeds in seeds_pt2:
                 if start_seed <= seed <= start_seed + range_seeds:
@@ -160,6 +142,26 @@ class Day5(DailyPuzzle):
 
             if do_end:
                 break
+
+    @staticmethod
+    def convert_through_map(input_value: int, map_tuples_list: list) -> int:
+        for tpl in map_tuples_list:
+            source_start, r_length, destination_start = tpl
+            if source_start <= input_value < source_start + r_length:
+                increment = input_value - source_start
+                return destination_start + increment
+
+        return input_value
+
+    @staticmethod
+    def reverse_through_map(input_value: int, map_tuples_list: list) -> int:
+        for tpl in map_tuples_list:
+            source_start, r_length, destination_start = tpl
+            if destination_start <= input_value < destination_start + r_length:
+                increment = input_value - destination_start
+                return source_start + increment
+
+        return input_value
 
 
 if __name__ == "__main__":
