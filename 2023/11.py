@@ -34,7 +34,7 @@ class Day11(DailyPuzzle):
 
         for idx_sum_c, c_insert_idx in enumerate(no_galaxies_columns):
             for r_idx, _ in enumerate(self.data):
-                self.data[r_idx] = self.data[r_idx][:(c_insert_idx + idx_sum_c)] + "." + self.data[r_idx][(c_insert_idx + idx_sum_c):]  # TODO: an issue might be here
+                self.data[r_idx] = self.data[r_idx][:(c_insert_idx + idx_sum_c)] + "." + self.data[r_idx][(c_insert_idx + idx_sum_c):] 
 
         # Find coordinates of galaxies
         galaxies_coordinates = []
