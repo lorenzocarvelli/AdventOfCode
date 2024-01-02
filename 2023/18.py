@@ -16,7 +16,7 @@ class Day18(DailyPuzzle):
 
     @staticmethod
     def solve_pt2(h_lines: list, v_lines: list):
-        # Credits to tm01 - see: https://github.com/tmo1/adventofcode/blob/main/2023/18b.py
+        # Credits to tmo1 - see: https://github.com/tmo1/adventofcode/blob/main/2023/18b.py
         h_bars = sorted({h_line[2] for h_line in h_lines})
         v_bars = sorted({v_line[2] for v_line in v_lines})
         total = 0
