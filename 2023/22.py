@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 from base import DailyPuzzle
 
 
@@ -56,15 +54,17 @@ class Day22(DailyPuzzle):
         for b in sorted_by_height:
             # Base case, brick already on the ground level
             if min(cc[2] for cc in b.cubes) == 1:
-                below.append(deepcopy(b))
+                below.append(b)
                 continue
 
             can_still_fall = True
             current_positions = b.cubes
+            highest_below = max([cc[2] for bb in below for cc in bb.cubes])
+            idx = 1
 
             while can_still_fall:
 
-                next_positions = [(cp[0], cp[1], cp[2]-1) for cp in current_positions]
+                next_positions = [(cp[0], cp[1], highest_below+idx) for cp in current_positions]
 
                 for bb in below:
                     intersection = list(set(next_positions) & set(bb.cubes))
@@ -74,10 +74,12 @@ class Day22(DailyPuzzle):
 
                 if can_still_fall:
                     current_positions = next_positions
+                    idx += 1
 
-            db = deepcopy(b)
-            db.cubes = current_positions
-            below.append(db)
+            b.cubes = current_positions
+            below.append(b)
+
+        print("Done falling")
 
         safe_to_disintegrate = 0
         for brick in below:

@@ -64,6 +64,38 @@ class Day10(DailyPuzzle):
             print(current_row)
             char_map.append(current_row)
 
+        inside_counter = 0
+        for r_idx, r in enumerate(self.data):
+            for c_idx, crc in enumerate(r):
+                point_coordinates = (r_idx, c_idx)
+                if point_coordinates in loop_coordinates:
+                    continue
+
+                if self.is_inside_polygon(point_coordinates, loop_coordinates):
+                    inside_counter += 1
+
+        print(inside_counter)
+
+    @staticmethod
+    def is_inside_polygon(point, polygon):
+        x, y = point
+        n = len(polygon)
+        inside = False
+
+        p1x, p1y = polygon[0]
+        for i in range(n + 1):
+            p2x, p2y = polygon[i % n]
+            if y > min(p1y, p2y):
+                if y <= max(p1y, p2y):
+                    if x <= max(p1x, p2x):
+                        if p1y != p2y:
+                            x_inters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                            if p1x == p2x or x <= x_inters:
+                                inside = not inside
+            p1x, p1y = p2x, p2y
+
+        return inside
+
 
 if __name__ == "__main__":
     day_10 = Day10()
