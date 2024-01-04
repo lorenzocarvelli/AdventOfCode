@@ -25,7 +25,7 @@ class Day14(DailyPuzzle):
         round_rocks1 = self.tilt(round_rocks1, square_rocks, "north", tr, tc)
 
         p1 = self.get_total_load(round_rocks1, tr)
-        print(p1)  # 108857
+        print(p1)
 
         one_cycle_configuration = []
         configurations = []
@@ -38,9 +38,9 @@ class Day14(DailyPuzzle):
             round_rocks = self.tilt(round_rocks, square_rocks, "east", tr, tc)
 
             if ii == 0:
-                one_cycle_configuration = round_rocks
+                one_cycle_configuration = sorted(round_rocks)
 
-            if ii > 0 and all(rrk in one_cycle_configuration for rrk in round_rocks):
+            if ii > 0 and all(rrk in one_cycle_configuration for rrk in sorted(round_rocks)):
                 break
 
             configurations.append(round_rocks)
