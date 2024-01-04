@@ -5,7 +5,7 @@ class Day13(DailyPuzzle):
     def __init__(self):
         super().__init__("2023", "13")
 
-    def solve(self):
+    def get_blocks(self):
         blocks = []
         block = []
         for idx, ll in enumerate(self.data):
@@ -14,9 +14,12 @@ class Day13(DailyPuzzle):
                 block = []
                 continue
             block.append(ll)
+        return blocks
 
+    def solve(self):
         p1 = 0
         p2 = 0
+        blocks = self.get_blocks()
         for block in blocks:
             columns = [[] for _ in range(len(block[0]))]
             for r_idx, rr in enumerate(block):
@@ -29,7 +32,7 @@ class Day13(DailyPuzzle):
             vs, vs_pt2 = self.find_symmetry(columns)
 
             # Summarizing for part 1
-            if len(hs) + len(vs) > 1:  # The last line has 2 symmetry axes... Might it be a bug in the input data?
+            if len(hs) + len(vs) > 1:
                 hs = []
 
             for hh in hs:
@@ -39,8 +42,7 @@ class Day13(DailyPuzzle):
                 p1 += vv[0]
 
             # Summarizing for part 2
-            if len(hs_pt2) + len(vs_pt2) > 1 or len(hs_pt2) + len(
-                    vs_pt2) == 0:  # The last line has 2 symmetry axes... Might it be a bug in the input data?
+            if len(hs_pt2) + len(vs_pt2) > 1 or len(hs_pt2) + len(vs_pt2) == 0:
                 raise
 
             for hh2 in hs_pt2:

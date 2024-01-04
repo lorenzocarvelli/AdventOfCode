@@ -8,15 +8,6 @@ class Day12(DailyPuzzle):
         super().__init__("2023", "12")
 
     def solve(self):
-        """data = [
-            "???.### 1,1,3",
-            ".??..??...?##. 1,1,3",
-            "?#?#?#?#?#?#?#? 1,3,1,6",
-            "????.#...#... 4,1,1",
-            "????.######..#####. 1,6,5",
-            "?###???????? 3,2,1"
-        ]"""
-
         possible_arrangements_pt1 = []
         possible_arrangements_pt2 = []
         for ll in self.data:
@@ -31,8 +22,8 @@ class Day12(DailyPuzzle):
             possible_arrangements_pt1.append(allowed_arrangements_pt1)
 
             # Part 2
-            # allowed_arrangements_pt2 = self.find_all_possible_arrangements(string_input_p2, nn2)
-            # possible_arrangements_pt2.append(allowed_arrangements_pt2)
+            allowed_arrangements_pt2 = self.find_all_possible_arrangements(string_input_p2, nn2)
+            possible_arrangements_pt2.append(allowed_arrangements_pt2)
 
         print(sum(possible_arrangements_pt1))
         print(sum(possible_arrangements_pt2))
@@ -49,9 +40,6 @@ class Day12(DailyPuzzle):
             for ps in all_possible_strings:
                 new_all_possible_strings.append(self.replace_char_at_position(ps, next_qmp, "."))
                 new_all_possible_strings.append(self.replace_char_at_position(ps, next_qmp, "#"))
-
-            # Pruning
-            # print(1)  # TODO
 
             all_possible_strings = new_all_possible_strings
 
