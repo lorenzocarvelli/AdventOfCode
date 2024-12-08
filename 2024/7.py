@@ -68,7 +68,7 @@ class Day7(DailyPuzzle):
         right_side_str = line_split[1]
         right_side_list = [int(nn) for nn in right_side_str.split(" ")]
         return left_side, right_side_list
-    
+
 
 if __name__ == "__main__":
     day_7 = Day7()
